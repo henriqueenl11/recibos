@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Recibo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Recibo</h1>
+    <form id="recibo-form">
+      <label>Valor R$: <input type="number" id="valor" required></label>
+      <label>Valor (por extenso): <input type="text" id="valorExtenso" required></label>
+      <label>Referente: <input type="text" id="referente"></label>
+      <label>Nome do Pagador: <input type="text" id="nomePagador" required></label>
+      <label>CPF/CNPJ do Pagador: <input type="text" id="cpfPagador" required></label>
+      <label>Cheque N°: <input type="text" id="cheque"></label>
+      <label>Banco: <input type="text" id="banco"></label>
+      <label>Agência: <input type="text" id="agencia"></label>
+      <label>Local (Cidade/Estado): <input type="text" id="local" required></label>
+      <label>Nome do Emitente: <input type="text" id="nomeEmitente" required></label>
+      <label>CPF/CNPJ do Emitente: <input type="text" id="cpfEmitente" required></label>
+      <label>RG do Emitente: <input type="text" id="rgEmitente" required></label>
+      <button type="submit">Gerar Recibo</button>
+    </form>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
