@@ -22,10 +22,12 @@
       <label>Nome do Emitente: <input type="text" id="nomeEmitente" required></label>
       <label>CPF/CNPJ do Emitente: <input type="text" id="cpfEmitente" required></label>
       <label>RG do Emitente: <input type="text" id="rgEmitente" required></label>
-      <button type="submit">Gerar Recibo</button>
+      <label>E-mail para Envio: <input type="email" id="email" required></label>
+      <button type="submit">Gerar e Enviar Recibo</button>
     </form>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
