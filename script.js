@@ -1,5 +1,5 @@
 // Inicializando o EmailJS
-emailjs.init("qI4LCXqDkmxT1FBEs"); // Substitua YOUR_USER_ID com seu ID do EmailJS
+emailjs.init("YOUR_USER_ID"); // Substitua YOUR_USER_ID com seu ID do EmailJS
 
 // Função para gerar e enviar o recibo
 document.getElementById('recibo-form').addEventListener('submit', function (event) {
@@ -23,24 +23,27 @@ document.getElementById('recibo-form').addEventListener('submit', function (even
     // Gerar o recibo em PDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+
+    // Título do recibo
+    doc.setFontSize(16);
+    doc.text("RECIBO", 105, 20, null, null, 'center'); // Centraliza o título
     
-    doc.text("Recibo de Pagamento", 20, 10);
-    doc.text(`Valor: R$ ${valor}`, 20, 20);
-    doc.text(`Valor por extenso: ${valorExtenso}`, 20, 30);
-    doc.text(`Referente: ${referente}`, 20, 40);
-    doc.text(`Nome do Pagador: ${nomePagador}`, 20, 50);
-    doc.text(`CPF/CNPJ do Pagador: ${cpfPagador}`, 20, 60);
-    doc.text(`Cheque N°: ${cheque}`, 20, 70);
-    doc.text(`Banco: ${banco}`, 20, 80);
-    doc.text(`Agência: ${agencia}`, 20, 90);
-    doc.text(`Local: ${local}`, 20, 100);
-    doc.text(`Nome do Emitente: ${nomeEmitente}`, 20, 110);
-    doc.text(`CPF/CNPJ do Emitente: ${cpfEmitente}`, 20, 120);
-    doc.text(`RG do Emitente: ${rgEmitente}`, 20, 130);
-    
-    // Salvar ou abrir o PDF gerado
+    // Preencher os dados no formato solicitado
+    doc.setFontSize(12);
+    doc.text(`Recibo R$ ${valor}`, 20, 40);
+    doc.text(`Recebemos de ${nomePagador} - CPF/CNPJ ${cpfPagador}, a importância supra de: ${valorExtenso} - referente a: ${referente}.`, 20, 50);
+    doc.text(`E, para maior clareza, firmo o presente recibo para que produza os seus efeitos, dando plena, rasa e irrevogável quitação, pelo valor recebido.`, 20, 60);
+    doc.text(`Pagamento efetuado em dinheiro.`, 20, 70);
+    doc.text(`Dia ${new Date().getDate()} de ${new Date().toLocaleString('default', { month: 'long' })} de ${new Date().getFullYear()}`, 20, 80);
+    doc.text(`RG/IE n° ${rgEmitente}`, 20, 90);
+    doc.text(`CPF/CNPJ n° ${cpfEmitente}`, 20, 100);
+
+    // Botões para Imprimir e Fechar (isso é feito na parte do HTML, mas menciono aqui)
+    doc.text("Clique no botão para imprimir ou fechar a página.", 20, 110);
+
+    // Salvar o PDF em uma URL
     const pdfUrl = doc.output('bloburl');
-    window.open(pdfUrl, '_blank'); // Abre em uma nova aba
+    window.open(pdfUrl, '_blank'); // Abre em uma nova aba para visualização
 
     // Enviar o PDF por e-mail
     const templateParams = {
@@ -51,7 +54,7 @@ document.getElementById('recibo-form').addEventListener('submit', function (even
     };
 
     // Enviar o e-mail com o recibo anexado
-    emailjs.send('service_km1w0fm', 'template_da6wae6', templateParams)
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
         .then(response => {
             console.log('E-mail enviado com sucesso!', response);
             alert("O recibo foi enviado para o seu e-mail.");
