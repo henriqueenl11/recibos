@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Recibo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Recibo</h1>
+    <form id="recibo-form">
+      <label>Valor R$: <input type="number" id="valor" required></label>
+      <label>Valor (por extenso): <input type="text" id="valorExtenso" required></label>
+      <label>Referente: <input type="text" id="referente"></label>
+      <label>Nome do Pagador: <input type="text" id="nomePagador" required></label>
+      <label>CPF/CNPJ do Pagador: <input type="text" id="cpfPagador" required></label>
+      <label>Cheque N°: <input type="text" id="cheque"></label>
+      <label>Banco: <input type="text" id="banco"></label>
+      <label>Agência: <input type="text" id="agencia"></label>
+      <label>Local (Cidade/Estado): <input type="text" id="local" required></label>
+      <label>Nome do Emitente: <input type="text" id="nomeEmitente" required></label>
+      <label>CPF/CNPJ do Emitente: <input type="text" id="cpfEmitente" required></label>
+      <label>RG do Emitente: <input type="text" id="rgEmitente" required></label>
+      <button type="submit">Gerar Recibo</button>
+    </form>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+document.getElementById('recibo-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const valor = document.getElementById('valor').value;
+  const valorExtenso = document.getElementById('valorExtenso').value;
+  const referente = document.getElementById('referente').value || "N/A";
+  const nomePagador = document.getElementById('nomePagador').value;
+  const cpfPagador = document.getElementById('cpfPagador').value;
+  const cheque = document.getElementById('cheque').value || "N/A";
+  const banco = document.getElementById('banco').value || "N/A";
+  const agencia = document.getElementById('agencia').value || "N/A";
+  const local = document.getElementById('local').value;
+  const nomeEmitente = document.getElementById('nomeEmitente').value;
+  const cpfEmitente = document.getElementById('cpfEmitente').value;
+  const rgEmitente = document.getElementById('rgEmitente').value;
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+
+  pdf.setFontSize(16);
+  pdf.text("R E C I B O", 105, 20, { align: "center" });
+
+  pdf.setFontSize(12);
+  pdf.text(`Recibo R$ ${valor}`, 20, 40);
+  pdf.text(`Recebi(emos) de ${nomePagador} - CPF/CNPJ n° ${cpfPagador},`, 20, 50);
+  pdf.text(`a importância supra de: ${valorExtenso} - referente a: ${referente}.`, 20, 60);
+
+  if (cheque !== "N/A") {
+    pdf.text(`Pagamento efetuado através do cheque n°: ${cheque}`, 20, 80);
+    pdf.text(`do Banco: ${banco} Agência: ${agencia}.`, 20, 90);
+  }
+
+  pdf.text(
+    `${local.toUpperCase()}, ${new Date().toLocaleDateString("pt-BR")}`,
+    20,
+    110
+  );
+  pdf.text(`${nomeEmitente}`, 20, 130);
+  pdf.text(`RG/IE n° ${rgEmitente}`, 20, 140);
+  pdf.text(`CPF/CNPJ n° ${cpfEmitente}`, 20, 150);
+
+  pdf.save("recibo.pdf");
+});
